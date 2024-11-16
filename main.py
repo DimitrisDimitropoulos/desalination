@@ -431,3 +431,24 @@ opex_cost: float = opex * total_capex
 ## Calculate the LCOW
 lcow: float = (total_capex * R + opex_cost) / (q_water)  # [euro/m3]
 print(f"LCOW: {lcow:.2f} euro/m3")
+
+
+# Create a pie chart of the costs
+labels = ["Wind", "Solar", "Desalination", "Tank"]
+sizes = [wind_percentage, solar_percentage, desalination_percentage, tank_percentage]
+colors = ["#ff9999", "#66b3ff", "#99ff99", "#ffcc99"]
+explode = (0.1, 0, 0, 0)  # explode the 1st slice (Wind)
+
+plt.figure(figsize=(8, 8))
+plt.pie(
+    sizes,
+    labels=labels,
+    colors=colors,
+    autopct="%1.1f%%",
+    shadow=True,
+    startangle=140,
+)
+plt.axis("equal")  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+plt.title(f"Total CAPEX: {total_capex/10**6:.2f} million euros")
+plt.show()
