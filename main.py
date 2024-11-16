@@ -382,7 +382,7 @@ def calculate_capex(
         tuple: Total CAPEX and the percentage of cost for wind, solar, desalination, and tank.
     """
     # Calculate the cost of wind turbines
-    cost_wind: float = c_wind * n_wind
+    cost_wind: float = c_wind * n_wind * 1000  # [euro]
     # Calculate the cost of solar panels
     cost_solar: float = c_solar * n_solar * p_solar
     # Calculate the cost of desalination plants
