@@ -22,9 +22,9 @@ wtr_cons_mnth: list[int] = [6, 7, 7, 8, 9, 11, 12, 11, 9, 7, 7, 6]
 # number of desalination plants
 n_ro: int = 3
 # number of wind turbines
-n_wind: int = 10
+n_wind: int = 21
 # peak power of ALL the solar panels
-p_solar: float = 5000  # [kWp]
+p_solar: float = 24500  # [kWp]
 # number of solar panels
 # n_solar: int = 1000
 
@@ -58,7 +58,7 @@ def calculate_tank_capacity(
     return weekly_consumption + extra
 
 
-tank_capacity: float = calculate_tank_capacity(wtr_cons_mnth, q_water, 500000)
+tank_capacity: float = calculate_tank_capacity(wtr_cons_mnth, q_water, 600000)
 # print it in million cubic meters
 print(f"Tank capacity: {tank_capacity / 10**6} million cubic meters")
 # Create a DataFrame
@@ -152,6 +152,7 @@ def wind_power_spline(speed: float) -> float:
         float: The power in kW.
     """
     # If speed is greater than the maximum wind speed in the dataset, return 0
+    # v cut out
     if speed > max(wind_speed):
         return 0
     # Create a cubic spline interpolation
@@ -159,6 +160,7 @@ def wind_power_spline(speed: float) -> float:
     # Calculate the power at the given speed
     power_output = float(spline(speed))
     # Check if the power is negative and return 0 if so
+    # v cut in
     if power_output < 0:
         return 0
     return power_output
@@ -463,7 +465,6 @@ plt.pie(
     startangle=140,
 )
 plt.axis("equal")  # Equal aspect ratio ensures that pie is drawn as a circle.
-
 plt.title(f"Total CAPEX: {total_capex/10**6:.2f} million euros")
 plt.show()
 
@@ -617,11 +618,11 @@ def find_viable_solutions_parallel(
 
 
 # Define the range of n_wind values
-n_wind_vec = list(range(15, 30))  # From 5 to 40 in steps of 1
+n_wind_vec = list(range(5, 30))  # From 5 to 40 in steps of 1
 # Define the range of p_solar values
-p_solar_vec = list(range(15000, 30001, 1000))  # From 5000 to 40000 in steps of 1000
+p_solar_vec = list(range(5000, 30001, 1000))  # From 5000 to 40000 in steps of 1000
 # Specify the number of desalination plants
-n_ro = 3
+n_ro = 4
 # Calculate the tank capacity
 tank_capacity = calculate_tank_capacity(wtr_cons_mnth, q_water, extra=600000)
 
@@ -636,4 +637,4 @@ viable_solutions_df = find_viable_solutions_parallel(
 # Display the top 5 viable solutions
 print(viable_solutions_df.head())
 # write the results to a csv file
-viable_solutions_df.to_csv("./out/viable_solutions.csv", index=False)
+viable_solutions_df.to_csv("./out/viable_solutions_4.csv", index=False)
