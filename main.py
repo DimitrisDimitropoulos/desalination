@@ -464,3 +464,13 @@ plt.axis("equal")  # Equal aspect ratio ensures that pie is drawn as a circle.
 
 plt.title(f"Total CAPEX: {total_capex/10**6:.2f} million euros")
 plt.show()
+
+
+plt.figure(figsize=(8, 8))
+plt.hist(df_results["plants_operating"], bins=10, edgecolor="black")
+# Add titles and labels
+plt.title("Frequency of Plants Operating")
+plt.xlabel("Number of Plants Operating")
+plt.ylabel("Frequency")
+# Show the plot
+plt.show()
