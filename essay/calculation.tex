@@ -59,12 +59,34 @@ spline, την οποία έχουμε κατασκευάσει προηγουμ
 \end{equation}
 
 Στην συνέχεια, υπολογίζουμε πόσοι σταθμοί αφαλάτωσης είναι ενεργοί για κάθε
-ώρα. Αναλυτικότερα, ξεκινάμε με τον υπολογισμό της ωριαίας κατανάλωσης μίας
+ώρα~\ref{fig:working_hours_per_des}. Αναλυτικότερα, ξεκινάμε με τον υπολογισμό της ωριαίας κατανάλωσης μίας
 μονάδας αφαλάτωσης, ως:
 
 \begin{equation}\label{eq:hourly_desalination_consumption}
 	E_{\rho ,h}= \frac{q_{\rho}}{24}\cdot \sigma_{\rho}\quad \left[\si{\kilo\watt}\right]
 \end{equation}
+
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+				width=0.7\textwidth,
+				ybar,
+				symbolic x coords={0, 1, 2, 3},
+				xtick=data,
+				xlabel={Αριθμός Λειτουργούντων Σταθμών},
+				ylabel={Ώρες},
+				nodes near coords,
+				ymin=0,
+				bar width=20pt,
+				enlarge x limits=0.25,
+				title={Αριθμός Ωρών Λειτουργίας ανά Πλήθος Σταθμών},
+			]
+			\addplot coordinates {(0, 2354) (1, 1126) (2, 898) (3, 4382)};
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Αριθμός ωρών που λειτουργούν οι σταθμοί αφαλάτωσης ανά πλήθος σταθμών}\label{fig:working_hours_per_des}
+\end{figure}
 
 Όπου \(q_{\rho}\) είναι η ημερήσια δυναμικότητα της μονάδας αφαλάτωσης και
 \(\sigma_{\rho}\) η ειδική κατανάλωση της. Επομένως, συγκρίνοντας την
