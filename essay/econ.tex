@@ -54,3 +54,22 @@
 	\text{LCOW}= \frac{\text{CAPEX}\cdot R + \text{OPEX}}{W}, \quad R=\frac{i}{1-(1+i)^{-N}}
 \end{equation}
 
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\pie[
+			width=0.7\textwidth,
+			text=legend,
+			radius=4,
+			color={blue!30, red!30, green!30, yellow!30},
+			sum=auto,
+			% title=Συνολικό Κόστος Επένδυσης \(\qty{103.6}{\million\euro}\)
+		]{
+			27.23/Ανεμογεννήτριες,
+			18.96/Φωτοβολταϊκά,
+			50.16/Aφαλάτωση,
+			3.66/Δεξαμενή
+		}
+	\end{tikzpicture}
+	\caption{Ποσοστιαία κατανομή του αρχικού κόστους επένδυσης}\label{fig:CAPEX}
+\end{figure}
