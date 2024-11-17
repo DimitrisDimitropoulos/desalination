@@ -1,0 +1,189 @@
+\section{Διαδικασία Υπολογισμών}
+
+\subsection{Υπολογισμός Χωρητικότητας Δεξαμενής}
+Για αρχή, ξεκινάμε με τον υπολογισμό της χωρητικότητας της δεξαμενής \(C_{\text{tank}}\).
+Ειδικότερα, ο υπολογισμός αυτός βασίζεται στον περιορισμό πως πρέπει να δύναται
+να παρέχει νερό για μία εβδομάδα του πιο απαιτητού μήνα χωρίς κάποια είσοδο.
+Βέβαια, αυτό που γνωρίζουμε είναι η συνολική κατανάλωση και η μηνιαία
+ποσοστιαία κατανομή της, το οποίο δημιουργεί πρόβλημα, αφού δεν έχουν όλοι οι
+μήνες το ίδιο πλήθος ημερών. Επομένως, εξάγουμε την ημερήσια κατανάλωση και
+συνεπώς την εβδομαδιαία για τον δυσκολότερο μήνα, η οποία αποτελεί το κάτω όριο
+χωρητικότητας της δεξαμενής.
+
+Η μηνιαία κατανάλωση νερού \(Q_{\text{monthly}, i}\) για κάθε μήνα \(i\), εκτιμάται ως εξής:
+
+\begin{equation}\label{eq:monthly_water_consumption}
+	Q_{\text{monthly}, i} = \frac{p_{\text{cons}, i}}{100} \cdot Q_{\text{yearly}}
+\end{equation}
+
+Όπου:
+\begin{itemize}
+	\item \(p_{\text{cons}, i}\) είναι το ποσοστό της συνολικής κατανάλωσης νερού για τον μήνα \(i\)
+	\item \(Q_{\text{yearly}}\) είναι ο ετήσιος όγκος νερού που χρειάζεται σε εκατομμύρια κυβικά μέτρα
+\end{itemize}
+
+Ακόμη, η ημερήσια κατανάλωση νερού \(Q_{\text{daily}, i}\) για κάθε μήνα \(i\), έχει:
+
+\begin{equation}\label{eq:daily_water_consumption}
+	Q_{\text{daily}, i} = \frac{Q_{\text{monthly}, i}}{d_i}
+\end{equation}
+
+Όπου \(d_i\) είναι ο αριθμός των ημερών του μήνα \(i\). Προφανώς ο υπολογισμός
+του πλέον απαιτητικού μήνα \(i_{\text{max}}\) είναι τετριμμένος.
+
+Η εβδομαδιαία κατανάλωση νερού \(Q_{\text{weekly}}\) για τον πιο απαιτητικό μήνα έχει:
+\begin{equation}\label{eq:weekly_water_consumption}
+	Q_{\text{weekly}} = Q_{\text{daily}, i_{\text{max}}} \cdot 7
+\end{equation}
+
+Τέλος, προσθέτουμε κάποια επιπλέον χωρητικότητα για ασφάλεια και για οικονομία
+όπως αποδεικνύεται στο τέλος. Συνεπώς:
+\begin{equation}\label{eq:tank_capacity}
+	C_{\text{tank}} = Q_{\text{weekly}} + Q_{\text{extra}}
+\end{equation}
+
+\subsection{Μηχανή Προσομοίωσης}
+Σε αυτό το σημείο περιγράφουμε την καρδία των υπολογισμών, η οποία δεν είναι
+άλλη από την διαδικασία προσομοίωσης (simulation engine). Αναλυτικότερα, η
+μηχανή αυτή παρακολουθεί την στάθμη της δεξαμενής για κάθε ώρα του χρόνου,
+έχοντας ως βάση τον ωριαίο ενεργειακό ισολογισμό στο σύνολο της εγκατάστασης.
+
+Για αρχή, εκτιμούμε την εισερχόμενη στο σύστημα ενέργεια από τις χρονοσειρές,
+που δίνονται. Πιο συγκεκριμένα, εκτιμούμε την ισχύ της ανεμογεννήτριας από την
+spline, την οποία έχουμε κατασκευάσει προηγουμένως, και την ταχύτητα του ανέμου
+για εκείνη την ώρα. Συγχρόνως, εκτιμούμε την ισχύ των φωτοβολταϊκών
+πολλαπλασιάζοντας τις μετρήσεις με την μέγιστη εγκατεστημένη ισχύ, βλέπε~\eqref{eq:hourly_enegry_sum}.
+
+\begin{equation}\label{eq:hourly_enegry_sum}
+	E_{\text{in},h} = E_{\text{wind},h} + E_{\text{pv},h}= P_{\text{wt}} \left(v_{\text{wind},h}\right) + \frac{p_{\text{pv},h}}{1000}\cdot P_{\text{pv,peak}}\quad \left[\si{\kilo\watt}\right]
+\end{equation}
+
+Στην συνέχεια, υπολογίζουμε πόσοι σταθμοί αφαλάτωσης είναι ενεργοί για κάθε
+ώρα. Αναλυτικότερα, ξεκινάμε με τον υπολογισμό της ωριαίας κατανάλωσης μίας
+μονάδας αφαλάτωσης, ως:
+
+\begin{equation}\label{eq:hourly_desalination_consumption}
+	E_{\rho ,h}= \frac{q_{\rho}}{24}\cdot \sigma_{\rho}\quad \left[\si{\kilo\watt}\right]
+\end{equation}
+
+Όπου \(q_{\rho}\) είναι η ημερήσια δυναμικότητα της μονάδας αφαλάτωσης και
+\(\sigma_{\rho}\) η ειδική κατανάλωση της. Επομένως, συγκρίνοντας την
+προσφερόμενη με την καταναλισκόμενη ισχύ είμαστε σε θέση να υπολογίσουμε τους
+σταθμούς που λειτουργούν ανά ώρα. Μετά, είναι εφικτός ο υπολογισμός και του
+παραγόμενου νερού ανά ώρα:
+
+\begin{equation}\label{eq:hourly_desalination_production}
+	Q_{\rho , h}=n_{\rho ,h}\cdot \frac{q_{\rho}}{24}\quad \left[\si{\cubic\meter\per\hour}\right]
+\end{equation}
+
+Τέλος, είμαστε σε θέση να υπολογίσουμε την στάθμη της δεξαμενής για κάθε ώρα~\ref{fig:tank_level}.
+Πιο ειδικά, ο υπολογισμός της στάθμης στηρίζεται στον ωριαίο ισολογισμό μάζας
+μεταξύ ζήτησης και παραγωγής.
+
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+				width=0.7\textwidth,
+				grid=major,
+				xlabel={Ημερομηνία και Ώρα},
+				ylabel={Όγκος στην δεξαμενή \(\left[\si{\cubic\meter}\right]\)},
+				title={Επίπεδο Δεξαμενής με την Πάροδο του Χρόνου},
+				date coordinates in=x,
+				table/col sep=comma,
+				date ZERO=2023-01-01,
+				xticklabel=\month-\day,
+				xticklabel style={rotate=45, anchor=near xticklabel},
+				unbounded coords=jump,
+				xmin=2023-01-01,
+				xmax=2023-12-31,
+			]
+			\addplot+[
+				no markers,
+				black,
+				thick
+			] table[x=datetime,y=tank_level] {../out/df_results.csv};
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Όγκος νερού στη δεξαμενή ανά ώρα του χρόνου}\label{fig:tank_level}
+\end{figure}
+
+\subsection{Επιλογή Μεγεθών Συστήματος}
+
+Σε αυτό το σημείο, είμαστε σε θέση να επιλέξουμε τα μεγέθη του συστήματος,
+εφορμόμενοι από την μηχανή προσομοίωσης. Ειδικότερα, τρέχουμε πολλές φορές την
+μηχανή για ένα διακριτό εύρος των παραμέτρων της συνολικής ισχύς των
+φωτοβολταϊκών και του αριθμού των ανεμογεννητριών που θα βάλουμε. Την
+διαδικασία αυτή την κάνουμε τρεις φορές για τις περιπτώσεις του πλήθους των
+σταθμών αφαλάτωσης. Συγχρόνως, θέτουμε και κριτήριο βιωσιμότητας της
+εγκατάστασης να μην πέσει η στάθμη κάτω από \qty{1000}{\cubic\meter}. Τέλος,
+υπολογίζουμε και το CAPEX, όπως θα αναφερθεί και παρακάτω. Συμπερασματικά,
+έχουμε το CAPEX για όλα τα κύρια σενάρια, πλήθους ανεμογεννητριών,
+φωτοβολταϊκών και σταθμών αφαλάτωσης, κάτι το οποίο μας δίνει τη δυνατότητα
+σύγκρισης και επιλογής με βάση το χαμηλότερο CAPEX~\ref{fig:viable_solutions_3}
+και~\ref{fig:viable_solutions_4}.
+
+Αξίζει να σημειωθεί, ότι η διαδικασία αυτή είναι πολύπλοκη και απαιτεί
+σημαντικό χρόνο εκτέλεσης. Για τον λόγο αυτό, οι υπολογισμοί αυτοί υλοποιήθηκαν
+σε παράλληλη επεξεργασία. Πιο συγκεκριμένα, κάθε νήμα τρέχει μία προσομοίωση
+για κάποιες συνθήκες, οι οποίες συγκρίνονται, βάσει CAPEX στο τέλος.
+
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+				width=0.7\textwidth,
+				view={0}{90},
+				grid=major,
+				colorbar,
+				colormap/viridis,
+				xlabel={\(n_{wt}\)},
+				ylabel={\(p_{pv} \left[\si{\kilo\watt}\right]\)},
+				zlabel={CAPEX},
+			]
+			\addplot3[
+				scatter,
+				only marks,
+				scatter src=explicit,
+				mark size=4,
+			]
+			table[
+					x=n_wind,
+					y=p_solar,
+					meta=total_capex,
+					col sep=comma,
+				] {../out/viable_solutions.csv};
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Σύγκριση των λύσεων με βάση το CAPEX για 3 σταθμούς αφαλάτωσης, χαμηλότερο είναι καλύτερο}\label{fig:viable_solutions_3}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+				width=0.7\textwidth,
+				view={0}{90},
+				grid=major,
+				colorbar,
+				colormap/viridis,
+				xlabel={\(n_{wt}\)},
+				ylabel={\(p_{pv} \left[\si{\kilo\watt}\right]\)},
+				zlabel={CAPEX},
+			]
+			\addplot3[
+				scatter,
+				only marks,
+				scatter src=explicit,
+				mark size=4,
+			]
+			table[
+					x=n_wind,
+					y=p_solar,
+					meta=total_capex,
+					col sep=comma,
+				] {../out/viable_solutions_4.csv};
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Σύγκριση των λύσεων με βάση το CAPEX για 4 σταθμούς αφαλάτωσης, χαμηλότερο είναι καλύτερο}\label{fig:viable_solutions_4}
+\end{figure}

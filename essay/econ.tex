@@ -1,0 +1,56 @@
+\section{Κόστος Παραγόμενου Νερού}
+
+Σε αυτό το σημείο γίνεται η ανάλυση του κάθε κόστους με σκοπό την εύρεση του
+κόστους του νερού που παράγεται ανά κυβικό.
+
+\section{Αρχικό Κόστος Επένδυσης}
+
+Για αρχή, θα υπολογίσουμε το κόστος της δεξαμενής, με βάση την χωρητικότητα της:
+
+\begin{equation}\label{eq:tank_cost}
+	C_R = 1000 \cdot V^{0.6}
+\end{equation}
+
+Στη συνέχεια, βρίσκουμε το κόστος των φωτοβολταϊκών, από την μέγιστη εγκατεστημένη ισχύ:
+
+\begin{equation}\label{eq:pv_cost}
+	C_{pv}= P_{\text{pv,peak}}\cdot c_{\text{pv}}
+\end{equation}
+
+Κατόπιν, υπολογίζουμε το κόστος των ανεμογεννητριών, από την εγκατεστημένη ισχύ:
+
+\begin{equation}\label{eq:wt_cost}
+	C_{wt}= P_{\text{wt}}\cdot c_{\text{wt}}
+\end{equation}
+
+Τέλος, υπολογίζουμε και το κόστος της αφαλάτωσης, από το ανηγμένο αρχικό κόστος
+για μονάδα αφαλάτωσης:
+
+\begin{equation}\label{eq:desalination_cost}
+	C_{\rho}= c_{\rho} \cdot n_{\rho} \cdot q_{\rho}
+\end{equation}
+
+Όπου, \(c_{\rho}\) το ανηγμένο CAPEX, \(n_{\rho}\) ο αριθμός των μονάδων
+αφαλάτωσης και \(q_{\rho}\) η ημερήσια δυναμικότητα
+
+Τελικά, το συνολικό αρχικό κόστος επένδυσης είναι:
+
+\begin{equation}\label{eq:total_CAPEX}
+	\text{CAPEX} = C_R + C_{pv} + C_{wt} + C_{\rho}
+\end{equation}
+
+\subsection{Κόστος Παραγόμενου Νερού}
+
+Το λειτουργικό κόστος της αφαλάτωσης, υπολογίζεται σαν ποσοστό του αρχικού:
+
+\begin{equation}\label{eq:OPEX}
+	\text{OPEX}=3\%\cdot \text{CAPEX}
+\end{equation}
+
+Τελικά, το κόστος παραγόμενου νερού, για εικοσαετή ορίζοντα \(Ν=20\) με
+επιτόκιο προεξόφλησης \(i=6\%\):
+
+\begin{equation}\label{eq:LCOW}
+	\text{LCOW}= \frac{\text{CAPEX}\cdot R + \text{OPEX}}{W}, \quad R=\frac{i}{1-(1+i)^{-N}}
+\end{equation}
+

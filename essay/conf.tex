@@ -1,0 +1,47 @@
+\documentclass[a4paper]{article}
+\usepackage[fontsize=12pt]{fontsize}
+
+%% Font and language settings
+\usepackage{polyglossia}
+\setdefaultlanguage{greek} \setotherlanguage{english}
+\setmainfont{GFS Neohellenic} \setmonofont{Iosevka Nerd Font}
+% \usepackage{cancel}
+\usepackage{siunitx,physunits}
+\usepackage{derivative}
+\usepackage{unicode-math}
+\setmathfont{GFS Neohellenic Math}
+\usepackage{graphicx, caption}
+% \usepackage{wrapfig, subcaption}
+%% Table settings
+\usepackage{array, booktabs, multirow, tabularx}
+%% Hyperref settings
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linktoc=all,
+	citecolor=blue,
+	filecolor=blue,
+	linkcolor=blue,
+	urlcolor=blue
+}
+\hypersetup{linktocpage}
+\def\numberanchor{section}
+\numberwithin{equation}{\numberanchor}
+\numberwithin{figure}{\numberanchor}
+\numberwithin{table}{\numberanchor}
+
+%% Typography settings
+\usepackage[margin=1cm, includefoot, includehead]{geometry}
+\usepackage[parfill]{parskip}
+% \usepackage[protrusion=true]{microtype}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\rhead{Πρώτο Υποχρεωτικό Θέμα}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepgfplotslibrary{dateplot}
+\pgfplotsset{compat=1.18}
+
