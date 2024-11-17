@@ -33,28 +33,13 @@
 Όπου, \(c_{\rho}\) το ανηγμένο CAPEX, \(n_{\rho}\) ο αριθμός των μονάδων
 αφαλάτωσης και \(q_{\rho}\) η ημερήσια δυναμικότητα
 
-Τελικά, το συνολικό αρχικό κόστος επένδυσης είναι:
+Τελικά, το συνολικό αρχικό κόστος επένδυσης, όπως φαίνεται και εδώ~\ref{fig:CAPEX} είναι:
 
 \begin{equation}\label{eq:total_CAPEX}
 	\text{CAPEX} = C_R + C_{pv} + C_{wt} + C_{\rho}
 \end{equation}
 
-\subsection{Κόστος Παραγόμενου Νερού}
-
-Το λειτουργικό κόστος της αφαλάτωσης, υπολογίζεται σαν ποσοστό του αρχικού:
-
-\begin{equation}\label{eq:OPEX}
-	\text{OPEX}=3\%\cdot \text{CAPEX}
-\end{equation}
-
-Τελικά, το κόστος παραγόμενου νερού, για εικοσαετή ορίζοντα \(Ν=20\) με
-επιτόκιο προεξόφλησης \(i=6\%\):
-
-\begin{equation}\label{eq:LCOW}
-	\text{LCOW}= \frac{\text{CAPEX}\cdot R + \text{OPEX}}{W}, \quad R=\frac{i}{1-(1+i)^{-N}}
-\end{equation}
-
-\begin{figure}
+\begin{figure}[ht]
 	\centering
 	\begin{tikzpicture}
 		\pie[
@@ -73,3 +58,19 @@
 	\end{tikzpicture}
 	\caption{Ποσοστιαία κατανομή του αρχικού κόστους επένδυσης}\label{fig:CAPEX}
 \end{figure}
+
+\subsection{Κόστος Παραγόμενου Νερού}
+
+Το λειτουργικό κόστος της αφαλάτωσης, υπολογίζεται σαν ποσοστό του αρχικού:
+
+\begin{equation}\label{eq:OPEX}
+	\text{OPEX}=3\%\cdot \text{CAPEX}
+\end{equation}
+
+Τελικά, το κόστος παραγόμενου νερού, για εικοσαετή ορίζοντα \(Ν=20\) με
+επιτόκιο προεξόφλησης \(i=6\%\):
+
+\begin{equation}\label{eq:LCOW}
+	\text{LCOW}= \frac{\text{CAPEX}\cdot R + \text{OPEX}}{W}, \quad R=\frac{i}{1-(1+i)^{-N}}
+\end{equation}
+
