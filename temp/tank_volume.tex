@@ -1,0 +1,30 @@
+\input{conf.tex}
+
+\begin{document}
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+				width=\textwidth,
+				grid=major,
+				xlabel={Date and Time},
+				ylabel={Vomume in the Tank \(\left[\si{\cubic\meter}\right]\)},
+				title={Level of the Tank over Time},
+				date coordinates in=x,
+				table/col sep=comma,
+				date ZERO=2023-01-01,
+				xticklabel=\month-\day,
+				xticklabel style={rotate=45, anchor=near xticklabel},
+				unbounded coords=jump,
+				xmin=2023-01-01,
+				xmax=2023-12-31,
+			]
+			\addplot+[
+				no markers,
+				black,
+				thick
+			] table[x=datetime,y=tank_level] {../out/df_results.csv};
+		\end{axis}
+	\end{tikzpicture}
+\end{figure}
+\end{document}

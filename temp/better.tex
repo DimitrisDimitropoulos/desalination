@@ -1,0 +1,31 @@
+\input{conf.tex}
+
+\begin{document}
+\begin{tikzpicture}
+	\begin{axis}[
+			width=0.7\textwidth,
+			view={0}{90},
+			grid=major,
+			colorbar,
+			colormap/viridis,
+			title style={yshift=1em}, % Adjust the value as needed
+			title={Comparison of solutions based on CAPEX for 4 desalination plants, lower is better},
+			xlabel={\(n_{wt}\)},
+			ylabel={\(p_{pv} \left[\si{\kilo\watt}\right]\)},
+			zlabel={CAPEX},
+		]
+		\addplot3[
+			scatter,
+			only marks,
+			scatter src=explicit,
+			mark size=4,
+		]
+		table[
+				x=n_wind,
+				y=p_solar,
+				meta=total_capex,
+				col sep=comma,
+			] {../out/viable_solutions_4.csv};
+	\end{axis}
+\end{tikzpicture}
+\end{document}
