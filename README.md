@@ -13,6 +13,11 @@ configurations of wind turbines and solar panels to find viable solutions.
 -   **Cost Analysis**: Calculates the initial investment cost (CAPEX), operational cost (OPEX), and the levelized cost of water (LCOW) for different system configurations.
 -   **Visualization**: Generates plots to visualize the tank level over time, the distribution of CAPEX, and the frequency of plants operating.
 
+
+![tank](https://github.com/user-attachments/assets/2d8bf0e8-1855-464f-af53-ba925d8fc557)
+
+![better](https://github.com/user-attachments/assets/9faf5812-1bda-49c6-a267-814592032034)
+
 ## Requirements
 
 -   Python 3.x
